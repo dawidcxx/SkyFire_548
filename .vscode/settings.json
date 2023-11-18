@@ -1,3 +1,4 @@
 {
-    "cmake.configureOnOpen": true
+    "cmake.configureOnOpen": true,
+    "cmake.configureArgs": ["-DTOOLS=1","-DCMAKE_INSTALL_PREFIX=/home/vscode/skyfire"]
 }
