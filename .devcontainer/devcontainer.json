@@ -13,7 +13,7 @@
 			},
 			"extensions": [
 				"ms-vscode.cpptools-extension-pack",
-				"formulahendry.docker-extension-pack"
+				"ms-azuretools.vscode-docker"
 			]
 		}
 	},
