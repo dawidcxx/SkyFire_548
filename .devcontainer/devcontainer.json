@@ -12,12 +12,19 @@
 				"terminal.integrated.defaultProfile.linux": "zsh"
 			},
 			"extensions": [
-				"ms-vscode.cpptools-extension-pack"
+				"ms-vscode.cpptools-extension-pack",
+				"formulahendry.docker-extension-pack"
 			]
 		}
-	}
+	},
+
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+			"plugins": "git",
+			"omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git"
+		}
+	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.

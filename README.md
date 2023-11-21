@@ -1,3 +1,24 @@
+# Fork Info
+
+Experimental Skyfire fork.
+
+
+# Development Guide
+
+Make sure You have the [VSCode Dev Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or follow [CLION](https://www.jetbrains.com/help/clion/connect-to-devcontainer.html#create_dev_container_inside_ide) instructions. 
+
+- Create a new workspace directory, example: `~/code/skyfire && ~/code/skyfire`
+- `git clone -b local https://github.com/dawidcxx/SkyFire_548` 
+- Open the project in a devcontainer  
+- Cmake: configure the project with clang. RelWithDebInfo profile is recommended
+- Build the project through your IDE via cmake or `cd build && make -j $(nproc) install`
+
+The rest is the same as on the [Skyfire wiki](https://wiki.projectskyfire.org/index.php/Installation_(Ubuntu_18.04_LTS))
+
+There is a database tool available at [http://localhost:8081](http://localhost:8081) (`root:abc123`) see [docker-compose.yml](./.devcontainer/docker-compose.yml) for details.
+
+Happy coding!
+
 # ![logo](https://abload.de/img/15_14_skyfire_logoqyj68.png)
 
 ## Build Status
