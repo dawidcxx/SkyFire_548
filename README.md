@@ -5,9 +5,9 @@ Experimental Skyfire fork.
 
 # Development Guide
 
-Make sure You have the [VSCode Dev Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or follow [CLION](https://www.jetbrains.com/help/clion/connect-to-devcontainer.html#create_dev_container_inside_ide) instructions. 
+Make sure You have the [VSCode Dev Containers Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) or follow [CLion](https://www.jetbrains.com/help/clion/connect-to-devcontainer.html#create_dev_container_inside_ide) instructions. 
 
-- Create a new workspace directory, example: `~/code/skyfire && ~/code/skyfire`
+- Create a new workspace directory, example: `~/code/skyfire && cd ~/code/skyfire`
 - `git clone -b local https://github.com/dawidcxx/SkyFire_548` 
 - Open the project in a devcontainer  
 - Cmake: configure the project with clang. RelWithDebInfo profile is recommended
