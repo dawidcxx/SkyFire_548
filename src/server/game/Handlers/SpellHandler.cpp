@@ -23,6 +23,7 @@
 #include "Player.h"
 #include "DBCStores.h"
 
+
 void WorldSession::HandleClientCastFlags(WorldPacket& recvPacket, uint8 castFlags, SpellCastTargets& targets)
 {
     // some spell cast packet including more data (for projectiles?)

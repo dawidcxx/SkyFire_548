@@ -3,6 +3,18 @@
 # See COPYRIGHT file for Copyright information
 #
 
+include(FetchContent)
+
+FetchContent_Declare(
+    Corrosion
+    GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
+)
+# Set any global configuration variables such as `Rust_TOOLCHAIN` before this line!
+FetchContent_MakeAvailable(Corrosion)
+
+corrosion_import_crate(MANIFEST_PATH worldserver-rs/Cargo.toml)
+
+
 file(GLOB_RECURSE sources_CommandLine CommandLine/*.cpp CommandLine/*.h)
 file(GLOB_RECURSE sources_RemoteAccess RemoteAccess/*.cpp RemoteAccess/*.h)
 file(GLOB_RECURSE sources_SFSoap SFSoap/*.cpp SFSoap/*.h)
@@ -182,6 +194,7 @@ target_link_libraries(worldserver
   ${OPENSSL_LIBRARIES}
   ${ZLIB_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
+  worldserver-rs
 )
 
 if( WIN32 )
