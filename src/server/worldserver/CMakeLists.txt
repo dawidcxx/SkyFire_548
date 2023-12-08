@@ -164,6 +164,7 @@ add_executable(worldserver
   ${worldserver_PCH_SRC}
 )
 
+
 if( NOT WIN32 )
   set_target_properties(worldserver PROPERTIES
     COMPILE_DEFINITIONS _SKYFIRE_CORE_CONFIG="${CONF_DIR}/worldserver.conf"
@@ -196,6 +197,11 @@ target_link_libraries(worldserver
   ${CMAKE_THREAD_LIBS_INIT}
   worldserver-rs
 )
+
+install(TARGETS worldserver-rs LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+get_target_property(target_libraries worldserver-rs LINK_LIBRARIES)
+message("Libraries attached to target 'worldserver-rs': ${target_libraries}")
+
 
 if( WIN32 )
   if ( MSVC )

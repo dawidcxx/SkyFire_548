@@ -684,6 +684,10 @@ void WorldSession::HandleGameobjectReportUse(WorldPacket& recvPacket)
     _player->UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_USE_GAMEOBJECT, go->GetEntry());
 }
 
+extern "C" {
+    bool worldserver_rs_handle_spell(uint32_t spellId);
+}
+ 
 void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
 {
     // ignore for remote control state (for player case)
@@ -1022,6 +1026,10 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
         recvPacket >> glyphIndex;
 
     SF_LOG_DEBUG("network", "WORLD: got cast spell packet, castCount: %u, spellId: %u, castFlags: %u, data length = %u", castCount, spellId, castFlags, (uint32)recvPacket.size());
+
+    if (worldserver_rs_handle_spell(spellId)) {
+        // TODO
+    }
 
     SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellId);
     if (!spellInfo)

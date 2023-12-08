@@ -91,13 +91,13 @@ LogsDir = ""
 #                                                                 section my.ini)
 #                     ".;/path/to/unix_socket;username;password;database" - (use Unix sockets on
 #                                                                           Unix/Linux)
-#        Default:     "127.0.0.1;3306;skyfire;skyfire;auth"       - (LoginDatabaseInfo)
-#                     "127.0.0.1;3306;skyfire;skyfire;world"      - (WorldDatabaseInfo)
-#                     "127.0.0.1;3306;skyfire;skyfire;characters" - (CharacterDatabaseInfo)
+#        Default:     "db;3306;root;abc123;auth"       - (LoginDatabaseInfo)
+#                     "db;3306;root;abc123;world"      - (WorldDatabaseInfo)
+#                     "db;3306;root;abc123;characters" - (CharacterDatabaseInfo)
 
-LoginDatabaseInfo     = "127.0.0.1;3306;skyfire;skyfire;auth"
-WorldDatabaseInfo     = "127.0.0.1;3306;skyfire;skyfire;world"
-CharacterDatabaseInfo = "127.0.0.1;3306;skyfire;skyfire;characters"
+LoginDatabaseInfo     = "db;3306;root;abc123;auth"
+WorldDatabaseInfo     = "db;3306;root;abc123;world"
+CharacterDatabaseInfo = "db;3306;root;abc123;characters"
 
 #
 #    LoginDatabase.WorkerThreads
