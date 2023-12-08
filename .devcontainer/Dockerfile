@@ -10,10 +10,14 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
     fi \
     && rm -f /tmp/reinstall-cmake.sh
 
+# Dependencies
 RUN apt update  -y
 RUN apt upgrade -y
 RUN apt install -y autoconf libtool make cmake clang
 RUN apt install -y git patch wget links zip unzip openssl
 RUN apt install -y libssl-dev  libreadline-dev zlib1g-dev 
 RUN apt install -y libbz2-dev git-core libace-dev libncurses5-dev
-RUN apt install -y libmysqlclient-dev mycli
+RUN apt install -y libmysqlclient-dev 
+
+# Optional tools
+RUN apt install -y mycli tldr

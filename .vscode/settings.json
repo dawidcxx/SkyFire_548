@@ -1,6 +1,6 @@
 {
     "cmake.configureOnOpen": true,
-    "cmake.configureArgs": ["-DTOOLS=1","-DCMAKE_INSTALL_PREFIX=/workspaces/skyfire-server"],
+    "cmake.configureArgs": ["-DTOOLS=1","-DCMAKE_INSTALL_PREFIX=/workspaces/server"],
     "cmake.generator": "Unix Makefiles",
     "extensions.ignoreRecommendations": true,
     "files.associations": {

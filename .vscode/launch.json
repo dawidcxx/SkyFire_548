@@ -8,7 +8,7 @@
             "name": "(gdb) Attach",
             "type": "cppdbg",
             "request": "attach",
-            "program": "/workspaces/skyfire-server/bin/worldserver",
+            "program": "/workspaces/server/bin/worldserver",
             "MIMode": "gdb",
             "setupCommands": [
                 {

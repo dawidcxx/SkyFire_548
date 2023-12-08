@@ -17,8 +17,9 @@
 			]
 		}
 	},
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
+	"remoteEnv": {
+		"PATH": "${containerEnv:PATH}:/workspaces/server/bin"
+	},
 	"features": {
 		"ghcr.io/devcontainers/features/rust:1": {},
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
