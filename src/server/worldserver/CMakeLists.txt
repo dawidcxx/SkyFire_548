@@ -3,17 +3,6 @@
 # See COPYRIGHT file for Copyright information
 #
 
-include(FetchContent)
-
-FetchContent_Declare(
-    Corrosion
-    GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
-)
-# Set any global configuration variables such as `Rust_TOOLCHAIN` before this line!
-FetchContent_MakeAvailable(Corrosion)
-
-corrosion_import_crate(MANIFEST_PATH worldserver-rs/Cargo.toml)
-
 
 file(GLOB_RECURSE sources_CommandLine CommandLine/*.cpp CommandLine/*.h)
 file(GLOB_RECURSE sources_RemoteAccess RemoteAccess/*.cpp RemoteAccess/*.h)
@@ -55,6 +44,8 @@ if( WIN32 )
   endif()
 endif()
 
+add_subdirectory(WorldServerRs)
+
 include_directories(
   ${CMAKE_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/dep/g3dlite/include
@@ -78,6 +69,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/server/shared/Packets
   ${CMAKE_SOURCE_DIR}/src/server/shared/Threading
   ${CMAKE_SOURCE_DIR}/src/server/shared/Utilities
+  ${CMAKE_SOURCE_DIR}/src/server/worldserver/WorldServerRs
   ${CMAKE_SOURCE_DIR}/src/server/game
   ${CMAKE_SOURCE_DIR}/src/server/game/Accounts
   ${CMAKE_SOURCE_DIR}/src/server/game/Achievements
@@ -187,6 +179,7 @@ target_link_libraries(worldserver
   g3dlib
   gsoap
   Detour
+  WorldServerRsLib
   ${JEMALLOC_LIBRARY}
   ${READLINE_LIBRARY}
   ${TERMCAP_LIBRARY}
@@ -195,13 +188,7 @@ target_link_libraries(worldserver
   ${OPENSSL_LIBRARIES}
   ${ZLIB_LIBRARIES}
   ${CMAKE_THREAD_LIBS_INIT}
-  worldserver-rs
 )
-
-install(TARGETS worldserver-rs LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
-get_target_property(target_libraries worldserver-rs LINK_LIBRARIES)
-message("Libraries attached to target 'worldserver-rs': ${target_libraries}")
-
 
 if( WIN32 )
   if ( MSVC )

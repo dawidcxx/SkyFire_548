@@ -16,7 +16,7 @@ pub extern fn worldserver_rs_handle_spell(spell_id: u32) -> bool {
         println!("Hello world - {}", value);
         return true;
     } else {
-        println!("No spell found sadge");
+        println!("No spell found xd");
         return false;
     }
 }
