@@ -44,8 +44,6 @@ if( WIN32 )
   endif()
 endif()
 
-add_subdirectory(WorldServerRs)
-
 include_directories(
   ${CMAKE_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/dep/g3dlite/include
@@ -69,7 +67,6 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/src/server/shared/Packets
   ${CMAKE_SOURCE_DIR}/src/server/shared/Threading
   ${CMAKE_SOURCE_DIR}/src/server/shared/Utilities
-  ${CMAKE_SOURCE_DIR}/src/server/worldserver/WorldServerRs
   ${CMAKE_SOURCE_DIR}/src/server/game
   ${CMAKE_SOURCE_DIR}/src/server/game/Accounts
   ${CMAKE_SOURCE_DIR}/src/server/game/Achievements
@@ -179,7 +176,6 @@ target_link_libraries(worldserver
   g3dlib
   gsoap
   Detour
-  WorldServerRsLib
   ${JEMALLOC_LIBRARY}
   ${READLINE_LIBRARY}
   ${TERMCAP_LIBRARY}

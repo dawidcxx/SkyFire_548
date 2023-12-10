@@ -76,5 +76,8 @@ include(cmake/showoptions.cmake)
 # add dependencies
 add_subdirectory(dep)
 
+# add rust-core sources
+add_subdirectory(src-rust)
+
 # add core sources
 add_subdirectory(src)

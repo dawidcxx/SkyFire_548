@@ -1,8 +1,8 @@
 [lib]
-crate-type = ["staticlib"]
+crate-type = ["cdylib"]
 
 [package]
-name = "worldserver-rs"
+name = "skyfire-rs"
 version = "0.1.0"
 edition = "2021"
 

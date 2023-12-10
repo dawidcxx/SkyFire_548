@@ -72,6 +72,7 @@
 #include "BattlefieldMgr.h"
 #include "TransportMgr.h"
 #include "BattlePetMgr.h"
+#include "SkyfireRsWrapper.h"
 
 ACE_Atomic_Op<ACE_Thread_Mutex, bool> World::m_stopEvent = false;
 uint8 World::m_ExitCode = SHUTDOWN_EXIT_CODE;
@@ -1393,6 +1394,9 @@ void World::SetInitialWorldSettings()
         exit(1);
     }
 
+    // init hot reload of rust code 
+    SkyfireRsWrapper::getInstance().installHotReload();
+    
     ///- Initialize pool manager
     sPoolMgr->Initialize();
 

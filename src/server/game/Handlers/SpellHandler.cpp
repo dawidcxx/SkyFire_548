@@ -22,7 +22,7 @@
 #include "SpellAuraEffects.h"
 #include "Player.h"
 #include "DBCStores.h"
-#include "WorldServerRs.h"
+#include "SkyfireRsWrapper.h"
 
 void WorldSession::HandleClientCastFlags(WorldPacket &recvPacket, uint8 castFlags, SpellCastTargets &targets)
 {
@@ -1022,7 +1022,7 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket &recvPacket)
 
     SF_LOG_DEBUG("network", "WORLD: got cast spell packet, castCount: %u, spellId: %u, castFlags: %u, data length = %u", castCount, spellId, castFlags, (uint32)recvPacket.size());
 
-    if (WorldServerRs::getInstance().handle_spell(spellId))
+    if (SkyfireRsWrapper::getInstance().handle_spell(spellId))
     {
         // TODO
     }
