@@ -153,6 +153,8 @@ add_executable(worldserver
   ${worldserver_PCH_SRC}
 )
 
+add_dependencies(worldserver build_src_rust)
+
 
 if( NOT WIN32 )
   set_target_properties(worldserver PROPERTIES
