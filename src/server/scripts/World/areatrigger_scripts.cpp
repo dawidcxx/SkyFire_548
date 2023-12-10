@@ -11,6 +11,12 @@ SDCategory: Areatrigger
 EndScriptData */
 
 /* ContentData
+at_dawning_valley
+at_wu_song_village
+at_fus_pond
+at_dawning_valley2
+at_pool_of_reflection
+at_the_dawning_valley           q29409
 at_coilfang_waterfall           4591
 at_legion_teleporter            4560 Teleporter TO Invasion Point: Cataclysm
 at_stormwright_shelf            q12741
@@ -26,15 +32,257 @@ EndContentData */
 #include "ScriptedCreature.h"
 #include "Player.h"
 
+class AreaTrigger_at_chamber_of_whispers_entrance : public AreaTriggerScript
+{
+public:
+    AreaTrigger_at_chamber_of_whispers_entrance() : AreaTriggerScript("at_chamber_of_whispers_entrance") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(29785) == QUEST_STATUS_INCOMPLETE)
+        {
+            if (!player->HasAura(104571))
+            {
+                player->CastSpell(player, 104593);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+const Position WugouPosMandori = { 927.5729f, 3610.2399f, 196.4969f };
+//7858
+class AreaTrigger_at_mandori_village_wugou : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_mandori_village_wugou() : AreaTriggerScript("at_mandori_village_wugou") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(29775) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(29775) == QUEST_STATUS_COMPLETE)
+        {
+            if (Creature* wugou = player->FindNearestCreature(55539, 25.0f, true))
+            {
+                wugou->SetOwnerGUID(0);
+                wugou->GetMotionMaster()->MovePoint(0, WugouPosMandori);
+                wugou->DespawnOrUnsummon(4000);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+const Position ShuPosMandori = { 880.8524f, 3606.0269f, 192.22139f };
+//7116
+class AreaTrigger_at_mandori_village_shu : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_mandori_village_shu() : AreaTriggerScript("at_mandori_village_shu") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(29775) == QUEST_STATUS_INCOMPLETE || player->GetQuestStatus(29775) == QUEST_STATUS_COMPLETE)
+        {
+            if (Creature* shu = player->FindNearestCreature(55558, 25.0f, true))
+            {
+                shu->SetOwnerGUID(0);
+                shu->GetMotionMaster()->MovePoint(0, ShuPosMandori);
+                shu->DespawnOrUnsummon(7000);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+enum shrineOfInnerLight
+{
+    QUEST_THE_SPIRITS_GUARDIAN = 29420,
+    NPC_HUOJIN_MONK = 60176,
+};
+//7736
+class AreaTrigger_at_shrine_of_inner_light : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_shrine_of_inner_light() : AreaTriggerScript("at_shrine_of_inner_light") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(QUEST_THE_SPIRITS_GUARDIAN) == QUEST_STATUS_COMPLETE)
+        {
+            if (!player->GetAura(92571))
+            {
+                if (Creature* huojinMonk = player->FindNearestCreature(NPC_HUOJIN_MONK, 15.0f, true))
+                {
+                    huojinMonk->CastSpell(player, 92571);
+                    huojinMonk->AI()->Talk(0);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+enum dawningValley
+{
+    NPC_CHIA_HUI = 60248,
+    NPC_BREWER_LIN = 60253,
+    QUEST_PASSION_OF_SHEN_ZIN_SU = 29423,
+};
+//7750
+class AreaTrigger_at_dawning_valley : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_dawning_valley() : AreaTriggerScript("at_dawning_valley") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(QUEST_PASSION_OF_SHEN_ZIN_SU) == QUEST_STATUS_INCOMPLETE)
+        {
+            if (!player->GetAura(116220))
+            {
+                if (Creature* chiahui = player->FindNearestCreature(NPC_CHIA_HUI, 45.0f, true))
+                {
+                    if (chiahui->FindNearestCreature(54958, 45.0f, true))
+                        chiahui->AI()->Talk(0);
+
+                    if (Creature* lin = player->FindNearestCreature(NPC_BREWER_LIN, 45.0f, true))
+                    {
+                        if (lin->FindNearestCreature(54958, 45.0f, true))
+                            lin->AI()->Talk(0);
+                    }
+                    chiahui->CastSpell(player, 116220);
+
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+enum WuSongVillage
+{
+    QUEST_JI_OF_THE_HUOJIN = 29522,
+    NPC_JI_FIREPAW = 54568
+};
+//7749
+class AreaTrigger_at_wu_song_village : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_wu_song_village() : AreaTriggerScript("at_wu_song_village") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(QUEST_JI_OF_THE_HUOJIN) == QUEST_STATUS_COMPLETE)
+        {
+            if (!player->GetAura(116219))
+            {
+                if (Creature* ji = player->FindNearestCreature(NPC_JI_FIREPAW, 15.0f, true))
+                {
+                    ji->CastSpell(player, 116219);
+                    ji->AI()->Talk(0);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+enum fusPond
+{
+    QUEST_AYSA_OF_THE_TUSHUI = 29410,
+    QUEST_MISSING_DRIVER = 29419,
+
+    NPC_AYSA = 54567,
+    NPC_LORVO = 54943,
+};
+//7748
+class AreaTrigger_at_fus_pond : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_fus_pond() : AreaTriggerScript("at_fus_pond") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* trigger) OVERRIDE
+    {
+        if (player->GetQuestStatus(QUEST_AYSA_OF_THE_TUSHUI) == QUEST_STATUS_COMPLETE)
+        {
+            std::list<Creature*> lorvos;
+            player->GetCreatureListWithEntryInGrid(lorvos, NPC_LORVO, 15.0f);
+            if (!lorvos.empty())
+            {
+                for (std::list<Creature*>::iterator itr = lorvos.begin(); itr != lorvos.end(); ++itr)
+                {
+                    if ((*itr)->IsAlive() && (*itr)->GetGUIDLow() == 224519)
+                    {
+                        (*itr)->AI()->Talk(0);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        if (player->GetQuestStatus(QUEST_MISSING_DRIVER) == QUEST_STATUS_COMPLETE)
+        {
+            if (Creature* aysa = player->FindNearestCreature(NPC_AYSA, 15.0f, true))
+            {
+                aysa->AI()->Talk(0);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+enum dawningValley2
+{
+    NPC_TRAINEE_GUANG = 60244,
+};
+//7747
+class AreaTrigger_at_dawning_valley2 : AreaTriggerScript
+{
+public:
+    AreaTrigger_at_dawning_valley2() : AreaTriggerScript("at_dawning_valley2") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        if (player->GetQuestStatus(QUEST_AYSA_OF_THE_TUSHUI) == QUEST_STATUS_COMPLETE)
+        {
+            if (!player->GetAura(116220))
+            {
+                if (Creature* guang = player->FindNearestCreature(NPC_TRAINEE_GUANG, 45.0f, true))
+                {
+                    guang->AI()->Talk(0, player);
+                    guang->CastSpell(player, 116220);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+class AreaTrigger_at_pool_of_reflection : public AreaTriggerScript
+{
+public:
+    AreaTrigger_at_pool_of_reflection() : AreaTriggerScript("at_pool_of_reflection") { }
+
+    bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
+    {
+        player->CastSpell(player, 108590);
+        return true;
+    }
+};
 
 enum the_dawning_valley
 {
     NPC_TRAINEE_NIM = 60183,
-
+    QUEST_DISCIPLE_CHALLENGE = 29409,
     AT_SPELL_FORCE_REACTION = 102429,
 };
-
-#define SAY_TRAINEE_NIM     "I hope you're ready. $n. Jaomin Ro awaits you just over the bridge."
 
 class AreaTrigger_at_the_dawning_valley : AreaTriggerScript
 {
@@ -43,13 +291,16 @@ public:
 
     bool OnTrigger(Player* player, AreaTriggerEntry const* /*trigger*/) OVERRIDE
     {
-        if (!player->HasAura(AT_SPELL_FORCE_REACTION))
+        if (player->GetQuestStatus(QUEST_DISCIPLE_CHALLENGE) == QUEST_STATUS_INCOMPLETE)
         {
-            if (Creature* creature = player->FindNearestCreature(NPC_TRAINEE_NIM, 25.0f, true))
+            if (!player->HasAura(AT_SPELL_FORCE_REACTION))
             {
-                player->CastSpell(player, AT_SPELL_FORCE_REACTION, false);
-                creature->MonsterSay(SAY_TRAINEE_NIM, Language::LANG_UNIVERSAL, player);
-
+                if (Creature* creature = player->FindNearestCreature(NPC_TRAINEE_NIM, 25.0f, true))
+                {
+                    player->CastSpell(player, AT_SPELL_FORCE_REACTION, false);
+                    creature->AI()->Talk(0, player);
+                    return true;
+                }
             }
         }
         return false;
@@ -493,6 +744,15 @@ private:
 
 void AddSC_areatrigger_scripts()
 {
+    new AreaTrigger_at_chamber_of_whispers_entrance();
+    new AreaTrigger_at_mandori_village_wugou();
+    new AreaTrigger_at_mandori_village_shu();
+    new AreaTrigger_at_shrine_of_inner_light();
+    new AreaTrigger_at_dawning_valley2();
+    new AreaTrigger_at_dawning_valley();
+    new AreaTrigger_at_wu_song_village();
+    new AreaTrigger_at_fus_pond();
+    new AreaTrigger_at_pool_of_reflection();
     new AreaTrigger_at_the_dawning_valley();
     new AreaTrigger_at_coilfang_waterfall();
     new AreaTrigger_at_legion_teleporter();

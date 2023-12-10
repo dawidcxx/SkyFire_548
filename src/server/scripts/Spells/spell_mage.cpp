@@ -45,6 +45,12 @@ enum MageSpells
 
     // Pyroblast!
     SPELL_MAGE_PYROBLAST_CLEARCAST               = 48108,
+
+    // Mirror Image
+    SPELL_MAGE_GLYPH_OF_MIRROR_IMAGE             = 63093,
+    SPELL_MAGE_SUMMON_IMAGES_FROST               = 58832,
+    SPELL_MAGE_SUMMON_IMAGES_FIRE                = 88092,
+    SPELL_MAGE_SUMMON_IMAGES_ARCANE              = 88091,
 };
 
 enum MageIcons
@@ -900,6 +906,64 @@ public:
     }
 };
 
+// 55342 - Mirror Image
+class spell_mage_mirror_image : public SpellScriptLoader
+{
+public:
+    spell_mage_mirror_image() : SpellScriptLoader("spell_mage_mirror_image") { }
+
+    class spell_mage_mirror_image_SpellScript : public SpellScript
+    {
+        PrepareSpellScript(spell_mage_mirror_image_SpellScript);
+
+        bool Validate(SpellInfo const* /*spellInfo*/) override
+        {
+            if (!sSpellMgr->GetSpellInfo(SPELL_MAGE_SUMMON_IMAGES_FROST) || !sSpellMgr->GetSpellInfo(SPELL_MAGE_SUMMON_IMAGES_FIRE) ||
+                !sSpellMgr->GetSpellInfo(SPELL_MAGE_SUMMON_IMAGES_ARCANE) || !sSpellMgr->GetSpellInfo(SPELL_MAGE_GLYPH_OF_MIRROR_IMAGE))
+                return false;
+            return true;
+        }
+
+        void HandleDummy(SpellEffIndex /*effIndex*/)
+        {
+            Unit* caster = GetCaster();
+
+            uint32 spellId = SPELL_MAGE_SUMMON_IMAGES_FROST;
+
+            if (Player* player = caster->ToPlayer())
+            {
+                if (GetCaster()->HasSpell(SPELL_MAGE_GLYPH_OF_MIRROR_IMAGE))
+                {
+                    switch (player->GetTalentSpecialization(player->GetActiveSpec()))
+                    {
+                    case SPEC_MAGE_ARCANE:
+                        spellId = SPELL_MAGE_SUMMON_IMAGES_ARCANE;
+                        break;
+                    case SPEC_MAGE_FIRE:
+                        spellId = SPELL_MAGE_SUMMON_IMAGES_FIRE;
+                        break;
+                    case SPEC_MAGE_FROST:
+                        spellId = SPELL_MAGE_SUMMON_IMAGES_FROST;
+                        break;
+                    }
+                }
+            }
+
+            caster->CastSpell(caster, spellId, true);
+        }
+
+        void Register() override
+        {
+            OnEffectHit += SpellEffectFn(spell_mage_mirror_image_SpellScript::HandleDummy, EFFECT_1, SPELL_EFFECT_DUMMY);
+        }
+    };
+
+    SpellScript* GetSpellScript() const override
+    {
+        return new spell_mage_mirror_image_SpellScript();
+    }
+};
+
 void AddSC_mage_spell_scripts()
 {
     new spell_mage_frostjaw(); // 5.4.8 18414
@@ -918,4 +982,5 @@ void AddSC_mage_spell_scripts()
     new spell_mage_ring_of_frost();
     new spell_mage_ring_of_frost_freeze();
     new spell_mage_water_elemental_freeze();
+    new spell_mage_mirror_image();
 }

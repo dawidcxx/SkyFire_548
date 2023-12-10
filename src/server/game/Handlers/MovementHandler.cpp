@@ -381,6 +381,11 @@ void WorldSession::HandleMovementOpcodes(WorldPacket& recvPacket)
 
     mover->UpdatePosition(movementInfo.pos);
 
+    if (mover->GetUInt32Value(UNIT_FIELD_NPC_EMOTESTATE) == 10)
+    {
+        mover->SetUInt32Value(UNIT_FIELD_NPC_EMOTESTATE, 0x00);
+    }
+
     WorldPacket data(SMSG_PLAYER_MOVE, recvPacket.size());
     mover->WriteMovementInfo(data);
     mover->SendMessageToSet(&data, _player);
@@ -412,11 +417,9 @@ void WorldSession::HandleMovementOpcodes(WorldPacket& recvPacket)
     }
 }
 
-void WorldSession::HandleForceSpeedChangeAck(WorldPacket &recvData)
+void WorldSession::HandleForceSpeedChangeAck(WorldPacket& recvData)
 {
     uint32 opcode = recvData.GetOpcode();
-
-    recvData.read_skip<uint32>(); // SplineID?
 
     /* extract packet */
     MovementInfo movementInfo;
@@ -453,18 +456,18 @@ void WorldSession::HandleForceSpeedChangeAck(WorldPacket &recvData)
 
     switch (opcode)
     {
-        case CMSG_MOVE_FORCE_WALK_SPEED_CHANGE_ACK:        move_type = MOVE_WALK;        break;
-        case CMSG_MOVE_FORCE_RUN_SPEED_CHANGE_ACK:         move_type = MOVE_RUN;         break;
-        case CMSG_MOVE_FORCE_RUN_BACK_SPEED_CHANGE_ACK:    move_type = MOVE_RUN_BACK;    break;
-        case CMSG_MOVE_FORCE_SWIM_SPEED_CHANGE_ACK:        move_type = MOVE_SWIM;        break;
-        case CMSG_MOVE_FORCE_SWIM_BACK_SPEED_CHANGE_ACK:   move_type = MOVE_SWIM_BACK;   break;
-        case CMSG_MOVE_FORCE_TURN_RATE_CHANGE_ACK:         move_type = MOVE_TURN_RATE;   break;
-        case CMSG_MOVE_FORCE_FLIGHT_SPEED_CHANGE_ACK:      move_type = MOVE_FLIGHT;      break;
-        case CMSG_MOVE_FORCE_FLIGHT_BACK_SPEED_CHANGE_ACK: move_type = MOVE_FLIGHT_BACK; break;
-        case CMSG_MOVE_FORCE_PITCH_RATE_CHANGE_ACK:        move_type = MOVE_PITCH_RATE;  break;
-        default:
-            SF_LOG_ERROR("network", "WorldSession::HandleForceSpeedChangeAck: Unknown move type opcode: %u", opcode);
-            return;
+    case CMSG_MOVE_FORCE_WALK_SPEED_CHANGE_ACK:        move_type = MOVE_WALK;        break;
+    case CMSG_MOVE_FORCE_RUN_SPEED_CHANGE_ACK:         move_type = MOVE_RUN;         break;
+    case CMSG_MOVE_FORCE_RUN_BACK_SPEED_CHANGE_ACK:    move_type = MOVE_RUN_BACK;    break;
+    case CMSG_MOVE_FORCE_SWIM_SPEED_CHANGE_ACK:        move_type = MOVE_SWIM;        break;
+    case CMSG_MOVE_FORCE_SWIM_BACK_SPEED_CHANGE_ACK:   move_type = MOVE_SWIM_BACK;   break;
+    case CMSG_MOVE_FORCE_TURN_RATE_CHANGE_ACK:         move_type = MOVE_TURN_RATE;   break;
+    case CMSG_MOVE_FORCE_FLIGHT_SPEED_CHANGE_ACK:      move_type = MOVE_FLIGHT;      break;
+    case CMSG_MOVE_FORCE_FLIGHT_BACK_SPEED_CHANGE_ACK: move_type = MOVE_FLIGHT_BACK; break;
+    case CMSG_MOVE_FORCE_PITCH_RATE_CHANGE_ACK:        move_type = MOVE_PITCH_RATE;  break;
+    default:
+        SF_LOG_ERROR("network", "WorldSession::HandleForceSpeedChangeAck: Unknown move type opcode: %u", opcode);
+        return;
     }
 
     // skip all forced speed changes except last and unexpected
@@ -646,4 +649,22 @@ void WorldSession::HandleSetCollisionHeightAck(WorldPacket& recvPacket)
     Movement::ExtraMovementStatusElement extra(&heightElement);
     MovementInfo movementInfo;
     GetPlayer()->ReadMovementInfo(recvPacket, &movementInfo, &extra);
+}
+
+void WorldSession::HandleMovementForceAck(WorldPacket& recvPacket)
+{
+    SF_LOG_DEBUG("network", "%s", recvPacket.GetOpcode() == CMSG_MOVE_APPLY_MOVEMENT_FORCE_ACK ? "CMSG_MOVE_APPLY_MOVEMENT_FORCE_ACK" : "CMSG_MOVE_REMOVE_MOVEMENT_FORCE_ACK");
+
+    if (recvPacket.GetOpcode() == CMSG_MOVE_APPLY_MOVEMENT_FORCE_ACK)
+    {
+        static MovementStatusElements const unkElements[] = { MSEExtraFloat, MSEExtraInt32, MSEExtraFloat };
+        Movement::ExtraMovementStatusElement extra(unkElements);
+        MovementInfo movementInfo;
+        GetPlayer()->ReadMovementInfo(recvPacket, &movementInfo, &extra);
+    }
+    else
+    {
+        MovementInfo movementInfo;
+        GetPlayer()->ReadMovementInfo(recvPacket, &movementInfo);
+    }
 }

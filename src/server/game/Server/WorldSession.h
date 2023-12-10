@@ -549,6 +549,7 @@ class WorldSession
         // new
         void HandleMoveUnRootAck(WorldPacket& recvPacket);
         void HandleMoveRootAck(WorldPacket& recvPacket);
+        void HandleMoveGravityAck(WorldPacket& recvData);
         void HandleReturnToGraveyard(WorldPacket& recvPacket);
 
         // new inspect
@@ -577,6 +578,7 @@ class WorldSession
         void HandleMoveTeleportAck(WorldPacket& recvPacket);
         void HandleForceSpeedChangeAck(WorldPacket& recvData);
         void HandleSetCollisionHeightAck(WorldPacket& recvPacket);
+        void HandleMovementForceAck(WorldPacket& recvPacket);
 
         void HandleRepopRequestOpcode(WorldPacket& recvPacket);
         void HandleAutostoreLootItemOpcode(WorldPacket& recvPacket);
@@ -653,6 +655,7 @@ class WorldSession
         void HandleMoveNotActiveMover(WorldPacket& recvData);
         void HandleDismissControlledVehicle(WorldPacket& recvData);
         void HandleRequestVehicleExit(WorldPacket& recvData);
+        void HandleMoveSetVehicleRecAck(WorldPacket& recvData);
         void HandleChangeSeatsOnControlledVehicle(WorldPacket& recvData);
         void HandleMoveTimeSkippedOpcode(WorldPacket& recvData);
 
@@ -887,6 +890,7 @@ class WorldSession
         void HandleReportPvPAFK(WorldPacket& recvData);
         void HandleRequestPvpOptions(WorldPacket& recvData);
         void HandleRequestPvpReward(WorldPacket& recvData);
+        void HandleRequestConquestFormulaConstants(WorldPacket& recvData);
 
         void HandleWardenDataOpcode(WorldPacket& recvData);
         void HandleWorldTeleportOpcode(WorldPacket& recvData);
@@ -955,7 +959,9 @@ class WorldSession
 
         void HandleCancelTempEnchantmentOpcode(WorldPacket& recvData);
 
+        void HandleItemRefundInfoRequest(WorldPacket& recvData);
         void HandleItemRefund(WorldPacket& recvData);
+        void SendItemExpirePurchaseRefund(ObjectGuid itemGuid);
 
         void HandleChannelVoiceOnOpcode(WorldPacket& recvData);
         void HandleVoiceSessionEnableOpcode(WorldPacket& recvData);
@@ -1052,6 +1058,7 @@ class WorldSession
         void HandleViolenceLevel(WorldPacket& recvPacket);
         void HandleObjectUpdateFailedOpcode(WorldPacket& recvPacket);
         void HandleSelectFactionOpcode(WorldPacket& recvPacket);
+        void HandleDiscardedTimeSyncAcks(WorldPacket& recvData);
         void HandleRequestCategoryCooldowns(WorldPacket& recvPacket);
         void HandleRequestCemeteryList(WorldPacket& recvPacket);
 

@@ -1467,7 +1467,12 @@ void Unit::DealMeleeDamage(CalcDamageInfo* damageInfo, bool durabilityLoss)
 
 void Unit::HandleEmoteCommand(uint32 anim_id)
 {
-    if (GetUInt32Value(UNIT_FIELD_NPC_EMOTESTATE) == 483)
+    if (anim_id == 10)
+    {
+        SetUInt32Value(UNIT_FIELD_NPC_EMOTESTATE, anim_id);
+        return;
+    }
+    else if (GetUInt32Value(UNIT_FIELD_NPC_EMOTESTATE) == 483)
     {
         SetUInt32Value(UNIT_FIELD_NPC_EMOTESTATE, 0x0);
         return;
@@ -11865,6 +11870,8 @@ void Unit::SetPower(Powers power, int32 val)
         data.WriteBit(guid [0]);
         data.WriteBit(guid [1]);
         data.WriteBits(1, 21); // 1 update
+
+        data.FlushBits();
 
         data.WriteByteSeq(guid [7]);
         data.WriteByteSeq(guid [0]);
