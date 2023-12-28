@@ -124,8 +124,11 @@ extern int main(int argc, char** argv)
 
     SF_LOG_WARN("server.authserver", "%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
 
+
 #if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
-    ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
+    auto handleCount = std::min(ACE::max_handles(), ACE_DEFAULT_SELECT_REACTOR_SIZE);
+    auto reactor = new ACE_Reactor(new ACE_Dev_Poll_Reactor(handleCount, 1), true);
+    ACE_Reactor::instance(reactor, true);
 #else
     ACE_Reactor::instance(new ACE_Reactor(new ACE_TP_Reactor(), true), true);
 #endif
