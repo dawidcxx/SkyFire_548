@@ -23,3 +23,6 @@ CMakeLists.txt.user
 cmake-build-debug/
 .idea/
 *.log
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj
