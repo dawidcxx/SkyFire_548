@@ -21,3 +21,6 @@ RUN apt install -y libmysqlclient-dev
 
 # Optional tools
 RUN apt install -y mycli tldr
+
+COPY ./install-dotnetcore.sh /tmp/
+RUN bash /tmp/install-dotnetcore.sh
