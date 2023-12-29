@@ -69,7 +69,7 @@ RealmID = 1
 #        Example:     "@prefix@/share/skyfire"
 #        Default:     "."
 
-DataDir = "."
+DataDir = "/workspaces/server/data"
 
 #
 #    LogsDir
@@ -78,7 +78,7 @@ DataDir = "."
 #                     Logs directory must exists, or log file creation will be disabled.
 #        Default:     "" - (Log files will be stored in the current path)
 
-LogsDir = ""
+LogsDir = "/workspaces/server/var"
 
 #
 #    LoginDatabaseInfo
@@ -404,7 +404,7 @@ PersistentCharacterCleanFlags = 0
 #        Example:     "./world.pid" - (Enabled)
 #        Default:     ""            - (Disabled)
 
-PidFile = ""
+PidFile = "/workspaces/server/world.pid"
 
 #
 #    PacketLogFile

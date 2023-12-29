@@ -50,7 +50,8 @@ class ReactorRunnable : protected ACE_Task_Base
 
             #if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
 
-            imp = new ACE_Dev_Poll_Reactor();
+            auto handleCount = std::min(ACE::max_handles(), ACE_DEFAULT_SELECT_REACTOR_SIZE);
+            imp = new ACE_Dev_Poll_Reactor(handleCount);
 
             imp->max_notify_iterations (128);
             imp->restart (1);
